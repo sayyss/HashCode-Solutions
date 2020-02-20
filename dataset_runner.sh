@@ -18,6 +18,6 @@ do
 	then
 		./a.out
 	else
-		./a.out > "$1"."$dataset_letter".solution
+		./a.out | tee "$1"."$dataset_letter".solution
 	fi
 done
