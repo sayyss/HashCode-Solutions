@@ -15,6 +15,10 @@ using namespace std;
 #define remove_space(x) x.erase(remove(x.begin(), x.end(), ' '), x.end())
 typedef long long ll;
 
+bool compareSignupDays(int ind1, int ind2) {
+    return signup_duration_per_library[ind1] < signup_duration_per_library[ind2];
+}
+
 int main(){
 
     int libIndices[L];
@@ -66,6 +70,3 @@ int main(){
 	return 0;
 }
 
-bool compareSignupDays(int ind1, int ind2) {
-    return signup_duration_per_library[ind1] < signup_duration_per_library[ind2];
-}
