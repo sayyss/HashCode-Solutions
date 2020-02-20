@@ -92,6 +92,7 @@ int main(){
         cout << resLibraries[i] << " " << numBooksFromThisLibrary << "\n";
         for (int j = 0; j < numBooksFromThisLibrary; j++)
             cout << resBooks[i][j] << " ";
+        cout << "\n";
     }
 	return 0;
 }
