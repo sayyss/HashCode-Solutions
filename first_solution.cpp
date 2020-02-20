@@ -6,7 +6,7 @@
 #include <map>
 #include <ctype.h>
 #include <math.h>
-#include "a.h"
+#include "d.h"
 
 using namespace std;
 
@@ -72,16 +72,21 @@ int main(){
     {
         if (signup_duration_per_library[libIndices[i]] < timeRemaining)
         {
-            resLibraries.push_back(libIndices[i]);
-            numResLibraries += 1; timeRemaining -= signup_duration_per_library[libIndices[i]];
-            resBooks.push_back({});
+            int currentLibrary = libIndices[i];
+            vector<int> booksFromThisLibrary = {};
+
             for (int j = 0; j < books_per_library[libIndices[i]]; j++)
             {
                 if (!count(scannedBooks.begin(), scannedBooks.end(), books_in_library[libIndices[i]][j]))
                 {
                     scannedBooks.push_back(books_in_library[libIndices[i]][j]);
-                    resBooks[numResLibraries - 1].push_back(books_in_library[libIndices[i]][j]);
+                    booksFromThisLibrary.push_back(books_in_library[libIndices[i]][j]);
                 }
+            }
+            if (!booksFromThisLibrary.empty()) {
+                resLibraries.push_back(libIndices[i]);
+                numResLibraries += 1; timeRemaining -= signup_duration_per_library[libIndices[i]];
+                resBooks.push_back(booksFromThisLibrary);
             }
         }
     }
