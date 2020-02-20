@@ -7,7 +7,7 @@ then
 fi
 
 [ -f "$1" ] || exit
-[ -z "$2" ] && datasets="a b c d e" || datasets="$2"
+[ -z "$2" ] && datasets="a b c d e f" || datasets="$2"
 
 for dataset_letter in $datasets
 do
