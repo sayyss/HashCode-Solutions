@@ -18,6 +18,30 @@ typedef long long ll;
 
 float Lscores[L];
 
+bool compareScores(int ind1, int ind2)
+{
+    return Lscores[ind1] > Lscores[ind2];
+}
+
+bool compareBooks(int ind1, int ind2)
+{
+    return books[ind1] > books[ind2];
+}
+
+float getScore(int libIndex)
+{
+    float Nj = books_per_library[libIndex];
+    float Mj = scan_per_day_per_library[libIndex];
+    float T = signup_duration_per_library[libIndex];
+    float sigma_scores = 0;
+    for (int i = 0; i < Nj; i++)
+    {
+        sigma_scores += books[books_in_library[libIndex][i]];
+    }
+    float score = (Nj / (T + (Nj/Mj))) * (sigma_scores / Nj);
+    return score;
+}
+
 int main(){
     for (int i = 0; i < L; i++)
     {
@@ -74,26 +98,3 @@ int main(){
 }
 
 
-float getScore(int libIndex)
-{
-    float Nj = books_per_library[libIndex];
-    float Mj = scan_per_day_per_library[libIndex];
-    float T = signup_duration_per_library[libIndex];
-    float sigma_scores = 0;
-    for (int i = 0; i < Nj; i++)
-    {
-        sigma_scores += books[books_in_library[libIndex][i]];
-    }
-    float score = (Nj / (T + (Nj/Mj))) * (sigma_scores / Nj);
-    return score;
-}
-
-bool compareScores(int ind1, int ind2)
-{
-    return Lscores[ind1] > Lscores[ind2];
-}
-
-bool compareBooks(int ind1, int ind2)
-{
-    return books[ind1] > books[ind2];
-}
