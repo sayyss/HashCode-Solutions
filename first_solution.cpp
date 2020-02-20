@@ -6,7 +6,7 @@
 #include <map>
 #include <ctype.h>
 #include <math.h>
-#include "d.h"
+#include "dataset.h"
 
 using namespace std;
 
@@ -42,13 +42,19 @@ float getScore(int libIndex)
     return score;
 }
 
+int sortedBooksIndices[B];
+
+bool compareShit(int ind1, int ind2) {
+    int indi1, indi2;
+    return find(sortedBooksIndices, sortedBooksIndices + B, ind1) < find(sortedBooksIndices, sortedBooksIndices + B, ind2);
+}
+
 int main(){
     for (int i = 0; i < L; i++)
     {
         Lscores[i] = getScore(i);
     }
 
-    int sortedBooksIndices[B];
     for (int i = 0; i < B; i++)
     {
         sortedBooksIndices[i] = i;
@@ -75,6 +81,7 @@ int main(){
             int currentLibrary = libIndices[i];
             vector<int> booksFromThisLibrary = {};
 
+            sort(books_in_library[libIndices[i]].begin(), books_in_library[libIndices[i]].end(), compareShit);
             for (int j = 0; j < books_per_library[libIndices[i]]; j++)
             {
                 if (!count(scannedBooks.begin(), scannedBooks.end(), books_in_library[libIndices[i]][j]))
@@ -99,7 +106,7 @@ int main(){
             cout << resBooks[i][j] << " ";
         cout << "\n";
     }
-	return 0;
+    return 0;
 }
 
 
