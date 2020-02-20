@@ -74,6 +74,7 @@ int main(){
         {
             resLibraries.push_back(libIndices[i]);
             numResLibraries += 1; timeRemaining -= signup_duration_per_library[libIndices[i]];
+            resBooks.push_back({});
             for (int j = 0; j < books_per_library[libIndices[i]]; j++)
             {
                 if (!count(scannedBooks.begin(), scannedBooks.end(), books_in_library[libIndices[i]][j]))
