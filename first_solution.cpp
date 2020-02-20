@@ -72,16 +72,14 @@ int main(){
     {
         if (signup_duration_per_library[libIndices[i]] < timeRemaining)
         {
-            resLibraries[numResLibraries] = libIndices[i];
+            resLibraries.push_back(libIndices[i]);
             numResLibraries += 1; timeRemaining -= signup_duration_per_library[libIndices[i]];
-            int numBooksAddedFromThisLibrary = 0;
             for (int j = 0; j < books_per_library[libIndices[i]]; j++)
             {
                 if (!count(scannedBooks.begin(), scannedBooks.end(), books_in_library[libIndices[i]][j]))
                 {
-                    scannedBooks[scannedBooks.size()] = books_in_library[libIndices[i]][j];
-                    resBooks[numResLibraries - 1][numBooksAddedFromThisLibrary] = books_in_library[libIndices[i]][j];
-                    numBooksAddedFromThisLibrary += 1;
+                    scannedBooks.push_back(books_in_library[libIndices[i]][j]);
+                    resBooks[numResLibraries - 1].push_back(books_in_library[libIndices[i]][j]);
                 }
             }
         }
