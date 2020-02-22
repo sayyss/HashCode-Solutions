@@ -6,7 +6,7 @@
 #include <map>
 #include <ctype.h>
 #include <math.h>
-#include "d.h"
+#include "b.h"
 
 using namespace std;
 
@@ -38,7 +38,8 @@ float getScore(int libIndex)
     {
         sigma_scores += books[books_in_library[libIndex][i]];
     }
-    float score = (Nj / (T + (Nj/Mj))) * (sigma_scores / Nj);
+    float time_taken = T + (Nj / Mj);
+    float score = (Nj * sigma_scores) / (time_taken * time_taken);
     return score;
 }
 
@@ -47,14 +48,6 @@ int main(){
     {
         Lscores[i] = getScore(i);
     }
-
-    int sortedBooksIndices[B];
-    for (int i = 0; i < B; i++)
-    {
-        sortedBooksIndices[i] = i;
-    }
-
-    sort(sortedBooksIndices, sortedBooksIndices + B, compareBooks);
 
     int libIndices[L];
     for (int i = 0; i < L; i++)
@@ -74,6 +67,8 @@ int main(){
         {
             int currentLibrary = libIndices[i];
             vector<int> booksFromThisLibrary = {};
+
+            sort(books_in_library[libIndices[i]].begin(), books_in_library[libIndices[i]].end(), compareBooks);
 
             for (int j = 0; j < books_per_library[libIndices[i]]; j++)
             {
@@ -101,5 +96,3 @@ int main(){
     }
 	return 0;
 }
-
-
