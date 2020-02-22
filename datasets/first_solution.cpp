@@ -6,7 +6,7 @@
 #include <map>
 #include <ctype.h>
 #include <math.h>
-#include "d.h"
+#include "b.h"
 
 using namespace std;
 
@@ -38,15 +38,9 @@ float getScore(int libIndex)
     {
         sigma_scores += books[books_in_library[libIndex][i]];
     }
-    float score = (Nj / (T + (Nj/Mj))) * (sigma_scores / Nj);
+    float time_taken = T + (Nj / Mj);
+    float score = (Nj * sigma_scores) / (time_taken * time_taken);
     return score;
-}
-
-int sortedBooksIndices[B];
-
-bool compareShit(int ind1, int ind2) {
-    int indi1, indi2;
-    return find(sortedBooksIndices, sortedBooksIndices + B, ind1) < find(sortedBooksIndices, sortedBooksIndices + B, ind2);
 }
 
 int main(){
@@ -54,13 +48,6 @@ int main(){
     {
         Lscores[i] = getScore(i);
     }
-
-    for (int i = 0; i < B; i++)
-    {
-        sortedBooksIndices[i] = i;
-    }
-
-    sort(sortedBooksIndices, sortedBooksIndices + B, compareBooks);
 
     int libIndices[L];
     for (int i = 0; i < L; i++)
@@ -81,9 +68,10 @@ int main(){
             int currentLibrary = libIndices[i];
             vector<int> booksFromThisLibrary = {};
 
+            sort(books_in_library[libIndices[i]].begin(), books_in_library[libIndices[i]].end(), compareBooks);
+
             for (int j = 0; j < books_per_library[libIndices[i]]; j++)
             {
-                sort(books_in_library[libIndices[i]].begin(), books_in_library[libIndices[i]].end(), compareShit);
                 if (!count(scannedBooks.begin(), scannedBooks.end(), books_in_library[libIndices[i]][j]))
                 {
                     scannedBooks.push_back(books_in_library[libIndices[i]][j]);
@@ -108,5 +96,3 @@ int main(){
     }
 	return 0;
 }
-
-

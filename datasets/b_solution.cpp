@@ -5,8 +5,7 @@
 #include <stack>
 #include <map>
 #include <ctype.h>
-#include <math.h>
-#include "dataset.h"
+#include "b.h"
 
 using namespace std;
 
@@ -16,52 +15,19 @@ using namespace std;
 #define remove_space(x) x.erase(remove(x.begin(), x.end(), ' '), x.end())
 typedef long long ll;
 
-float Lscores[L];
-
-bool compareScores(int ind1, int ind2)
-{
-    return Lscores[ind1] > Lscores[ind2];
-}
-
-bool compareBooks(int ind1, int ind2)
-{
-    return books[ind1] > books[ind2];
-}
-
-float getScore(int libIndex)
-{
-    float Nj = books_per_library[libIndex];
-    float Mj = scan_per_day_per_library[libIndex];
-    float T = signup_duration_per_library[libIndex];
-    float sigma_scores = 0;
-    for (int i = 0; i < Nj; i++)
-    {
-        sigma_scores += books[books_in_library[libIndex][i]];
-    }
-    float time_taken = T + (Nj / Mj);
-    float score = (Nj * sigma_scores) / (time_taken * time_taken);
-    return score;
-}
-
-int sortedBooksIndices[B];
-
-bool compareShit(int ind1, int ind2) {
-    int indi1, indi2;
-    return find(sortedBooksIndices, sortedBooksIndices + B, ind1) < find(sortedBooksIndices, sortedBooksIndices + B, ind2);
+bool compareSignupDays(int ind1, int ind2) {
+    return signup_duration_per_library[ind1] < signup_duration_per_library[ind2];
 }
 
 int main(){
-    for (int i = 0; i < L; i++)
-    {
-        Lscores[i] = getScore(i);
-    }
 
     int libIndices[L];
     for (int i = 0; i < L; i++)
     {
         libIndices[i] = i;
     }
-    sort(libIndices, libIndices + L, compareScores);
+
+    sort(libIndices, libIndices + L, compareSignupDays);
 
     vector<int> resLibraries;
     vector<vector<int>> resBooks;
@@ -74,8 +40,6 @@ int main(){
         {
             int currentLibrary = libIndices[i];
             vector<int> booksFromThisLibrary = {};
-
-            sort(books_in_library[libIndices[i]].begin(), books_in_library[libIndices[i]].end(), compareBooks);
 
             for (int j = 0; j < books_per_library[libIndices[i]]; j++)
             {
@@ -92,6 +56,7 @@ int main(){
             }
         }
     }
+
     cout << numResLibraries << "\n";
     for (int i = 0; i < numResLibraries; i++)
     {
@@ -101,5 +66,6 @@ int main(){
             cout << resBooks[i][j] << " ";
         cout << "\n";
     }
-    return 0;
+
+	return 0;
 }
