@@ -6,7 +6,7 @@
 #include <map>
 #include <ctype.h>
 #include <math.h>
-#include "dataset.h"
+#include <fstream>
 
 using namespace std;
 
@@ -16,7 +16,10 @@ using namespace std;
 #define remove_space(x) x.erase(remove(x.begin(), x.end(), ' '), x.end())
 typedef long long ll;
 
-float Lscores[L];
+int B, D, L;
+vector<int> books, books_per_library, scan_per_day_per_library, signup_duration_per_library;
+vector<vector<int>> books_in_library;
+vector<float> Lscores;
 
 bool compareScores(int ind1, int ind2)
 {
@@ -43,25 +46,50 @@ float getScore(int libIndex)
     return score;
 }
 
-int sortedBooksIndices[B];
+void readFromFile(string filename)
+{
+    ifstream infile;
+    infile.open(filename, ios::in);
 
-bool compareShit(int ind1, int ind2) {
-    int indi1, indi2;
-    return find(sortedBooksIndices, sortedBooksIndices + B, ind1) < find(sortedBooksIndices, sortedBooksIndices + B, ind2);
+    infile >> B >> L >> D;
+    int temp;
+    for (int i = 0; i < B; i++)
+    {
+        infile >> temp;
+        books.push_back(temp);
+    }
+    for (int i = 0; i < L; i++)
+    {
+        infile >> temp;
+        books_per_library.push_back(temp);
+        infile >> temp;
+        signup_duration_per_library.push_back(temp);
+        infile >> temp;
+        scan_per_day_per_library.push_back(temp);
+        books_in_library.push_back({});
+        for (int j = 0; j < books_per_library[i]; j++)
+        {
+            infile >> temp;
+            books_in_library[i].push_back(temp);
+        }
+    }
 }
 
 int main(){
+
+    readFromFile("e_so_many_books.txt");
+
     for (int i = 0; i < L; i++)
     {
-        Lscores[i] = getScore(i);
+        Lscores.push_back(getScore(i));
     }
 
-    int libIndices[L];
+    vector<int> libIndices;
     for (int i = 0; i < L; i++)
     {
-        libIndices[i] = i;
+        libIndices.push_back(i);
     }
-    sort(libIndices, libIndices + L, compareScores);
+    sort(libIndices.begin(), libIndices.end(), compareScores);
 
     vector<int> resLibraries;
     vector<vector<int>> resBooks;
@@ -101,5 +129,5 @@ int main(){
             cout << resBooks[i][j] << " ";
         cout << "\n";
     }
-    return 0;
+	return 0;
 }
